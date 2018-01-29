@@ -32,6 +32,7 @@ type Client struct {
 	GithubConfig               GithubConfigOperations
 	AuthConfig                 AuthConfigOperations
 	LocalConfig                LocalConfigOperations
+	ActiveDirectoryConfig      ActiveDirectoryConfigOperations
 	DynamicSchema              DynamicSchemaOperations
 	Stack                      StackOperations
 	Preference                 PreferenceOperations
@@ -74,6 +75,7 @@ func NewClient(opts *clientbase.ClientOpts) (*Client, error) {
 	client.GithubConfig = newGithubConfigClient(client)
 	client.AuthConfig = newAuthConfigClient(client)
 	client.LocalConfig = newLocalConfigClient(client)
+	client.ActiveDirectoryConfig = newActiveDirectoryConfigClient(client)
 	client.DynamicSchema = newDynamicSchemaClient(client)
 	client.Stack = newStackClient(client)
 	client.Preference = newPreferenceClient(client)

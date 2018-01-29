@@ -38,6 +38,7 @@ type Interface interface {
 	GithubConfigsGetter
 	AuthConfigsGetter
 	LocalConfigsGetter
+	ActiveDirectoryConfigsGetter
 	DynamicSchemasGetter
 	StacksGetter
 	PreferencesGetter
@@ -74,6 +75,7 @@ type Client struct {
 	githubConfigControllers               map[string]GithubConfigController
 	authConfigControllers                 map[string]AuthConfigController
 	localConfigControllers                map[string]LocalConfigController
+	activeDirectoryConfigControllers      map[string]ActiveDirectoryConfigController
 	dynamicSchemaControllers              map[string]DynamicSchemaController
 	stackControllers                      map[string]StackController
 	preferenceControllers                 map[string]PreferenceController
@@ -119,6 +121,7 @@ func NewForConfig(config rest.Config) (Interface, error) {
 		githubConfigControllers:               map[string]GithubConfigController{},
 		authConfigControllers:                 map[string]AuthConfigController{},
 		localConfigControllers:                map[string]LocalConfigController{},
+		activeDirectoryConfigControllers:      map[string]ActiveDirectoryConfigController{},
 		dynamicSchemaControllers:              map[string]DynamicSchemaController{},
 		stackControllers:                      map[string]StackController{},
 		preferenceControllers:                 map[string]PreferenceController{},
@@ -445,6 +448,19 @@ type LocalConfigsGetter interface {
 func (c *Client) LocalConfigs(namespace string) LocalConfigInterface {
 	objectClient := clientbase.NewObjectClient(namespace, c.restClient, &LocalConfigResource, LocalConfigGroupVersionKind, localConfigFactory{})
 	return &localConfigClient{
+		ns:           namespace,
+		client:       c,
+		objectClient: objectClient,
+	}
+}
+
+type ActiveDirectoryConfigsGetter interface {
+	ActiveDirectoryConfigs(namespace string) ActiveDirectoryConfigInterface
+}
+
+func (c *Client) ActiveDirectoryConfigs(namespace string) ActiveDirectoryConfigInterface {
+	objectClient := clientbase.NewObjectClient(namespace, c.restClient, &ActiveDirectoryConfigResource, ActiveDirectoryConfigGroupVersionKind, activeDirectoryConfigFactory{})
+	return &activeDirectoryConfigClient{
 		ns:           namespace,
 		client:       c,
 		objectClient: objectClient,

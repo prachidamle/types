@@ -81,6 +81,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&AuthConfigList{},
 		&LocalConfig{},
 		&LocalConfigList{},
+		&ActiveDirectoryConfig{},
+		&ActiveDirectoryConfigList{},
 		&DynamicSchema{},
 		&DynamicSchemaList{},
 		&Stack{},
